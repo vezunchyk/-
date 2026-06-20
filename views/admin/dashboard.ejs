@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Адмінка — Млин</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body class="admin-body">
+
+<div class="admin-shell">
+  <aside class="admin-side">
+    <a href="/" class="brand">
+      <svg class="mill" viewBox="0 0 100 100" fill="none"><g class="mill-spin"><path d="M50 50 L20 20 M50 50 L80 20 M50 50 L80 80 M50 50 L20 80" stroke-width="6"/></g></svg>
+      Млин
+    </a>
+    <nav class="admin-tabs">
+      <a href="#menu" class="admin-tab" data-tab="menu">Меню</a>
+      <a href="#hall" class="admin-tab" data-tab="hall">Зала</a>
+      <a href="#news" class="admin-tab" data-tab="news">Новини</a>
+      <a href="#contacts" class="admin-tab" data-tab="contacts">Контакти</a>
+      <a href="#site" class="admin-tab" data-tab="site">Головна сторінка</a>
+    </nav>
+    <a href="/admin/logout" class="logout">Вийти з адмінки</a>
+    <a href="/" class="logout" style="margin-top:8px;">← На сайт</a>
+  </aside>
+
+  <main class="admin-main">
+    <% if (flash) { %><div class="flash"><%= flash %></div><% } %>
+
+    <!-- ===================== МЕНЮ ===================== -->
+    <section class="admin-panel" data-panel="menu">
+      <h2>Меню</h2>
+      <p class="sub">Розділи та страви — додавайте, редагуйте чи видаляйте будь-яку позицію.</p>
+
+      <% db.menu.forEach(function(cat){ %>
+        <div class="admin-card">
+          <div class="admin-card-head">
+            <form method="POST" action="/admin/menu/category/<%= cat.id %>/edit" style="display:flex; gap:8px; flex:1;">
+              <input type="text" name="name" value="<%= cat.name %>" style="font-family:var(--display); font-size:18px; padding:8px 10px; border:1px solid var(--line); border-radius:3px; flex:1;">
+              <button type="submit" class="icon-btn">Зберегти назву</button>
+            </form>
+            <form method="POST" action="/admin/menu/category/<%= cat.id %>/delete" data-confirm="Видалити розділ «<%= cat.name %>» і всі страви в ньому?">
+              <button type="submit" class="icon-btn danger">Видалити розділ</button>
+            </form>
+          </div>
+
+          <div class="admin-item-list">
+            <% cat.items.forEach(function(item){ %>
+              <form method="POST" action="/admin/menu/item/<%= item.id %>/edit" class="admin-item-row">
+                <input type="text" name="name" value="<%= item.name %>" placeholder="Назва страви">
+                <input type="text" name="desc" value="<%= item.desc %>" placeholder="Опис">
+                <input type="text" name="price" value="<%= item.price %>" placeholder="Ціна">
+                <div class="admin-row-actions">
+                  <button type="submit" class="icon-btn">Зберегти</button>
+                  <button type="submit" formaction="/admin/menu/item/<%= item.id %>/delete" class="icon-btn danger" onclick="return confirm('Видалити «<%= item.name %>»?')">✕</button>
+                </div>
+              </form>
+            <% }) %>
+          </div>
+
+          <form method="POST" action="/admin/menu/item/add" class="admin-form inline" style="margin-top:16px;">
+            <input type="hidden" name="categoryId" value="<%= cat.id %>">
+            <div><label>Нова страва</label><input type="text" name="name" placeholder="Назва" required></div>
+            <div><label>Опис</label><input type="text" name="desc" placeholder="Короткий опис"></div>
+            <div><label>Ціна</label><input type="text" name="price" placeholder="200 ₴"></div>
+            <button type="submit">Додати страву</button>
+          </form>
+        </div>
+      <% }) %>
+
+      <div class="admin-card admin-add-card">
+        <form method="POST" action="/admin/menu/category/add" class="admin-form inline">
+          <div style="grid-column: span 2;"><label>Новий розділ меню</label><input type="text" name="name" placeholder="Напр. Десерти" required></div>
+          <div></div>
+          <button type="submit">Додати розділ</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- ===================== ЗАЛА ===================== -->
+    <section class="admin-panel" data-panel="hall">
+      <h2>Зала</h2>
+      <p class="sub">Показники зверху сторінки та текстові блоки з фото.</p>
+
+      <div class="admin-card">
+        <h3 style="margin-bottom:14px;">Показники (цифри під шапкою)</h3>
+        <form method="POST" action="/admin/hall/stats" class="admin-form">
+          <% db.hall.stats.forEach(function(s){ %>
+            <div class="admin-item-row" style="grid-template-columns: 100px 1fr;">
+              <input type="text" name="num" value="<%= s.num %>" placeholder="150">
+              <input type="text" name="label" value="<%= s.label %>" placeholder="гостей у залі">
+            </div>
+          <% }) %>
+          <button type="submit" style="justify-self:start;">Зберегти показники</button>
+        </form>
+      </div>
+
+      <% db.hall.sections.forEach(function(sec, i){ %>
+        <div class="admin-card">
+          <h3 style="margin-bottom:14px;">Блок: <%= sec.eyebrow %></h3>
+          <form method="POST" action="/admin/hall/section/<%= i %>/edit" class="admin-form">
+            <div><label>Підпис (eyebrow)</label><input type="text" name="eyebrow" value="<%= sec.eyebrow %>"></div>
+            <div><label>Заголовок</label><input type="text" name="title" value="<%= sec.title %>"></div>
+            <div><label>Текст</label><textarea name="text" rows="3"><%= sec.text %></textarea></div>
+            <div><label>Теги (через кому)</label><input type="text" name="tags" value="<%= sec.tags.join(', ') %>"></div>
+            <button type="submit">Зберегти блок</button>
+          </form>
+          <form method="POST" action="/admin/hall/section/<%= i %>/image" enctype="multipart/form-data" style="margin-top:12px; display:flex; gap:10px; align-items:center;">
+            <img src="/images/<%= sec.image %>" alt="" style="width:70px; height:50px; object-fit:cover; border-radius:3px;">
+            <input type="file" name="image" accept="image/*" style="font-size:13px;">
+            <button type="submit" class="icon-btn">Замінити фото</button>
+          </form>
+        </div>
+      <% }) %>
+    </section>
+
+    <!-- ===================== НОВИНИ ===================== -->
+    <section class="admin-panel" data-panel="news">
+      <h2>Новини / Активність</h2>
+      <p class="sub">Анонси подій, сезонні оновлення закладу.</p>
+
+      <% db.news.slice().sort(function(a,b){ return new Date(b.date)-new Date(a.date); }).forEach(function(post){ %>
+        <div class="admin-card">
+          <div class="admin-card-head">
+            <h3><%= post.title %></h3>
+            <form method="POST" action="/admin/news/<%= post.id %>/delete" data-confirm="Видалити новину «<%= post.title %>»?">
+              <button type="submit" class="icon-btn danger">Видалити</button>
+            </form>
+          </div>
+          <form method="POST" action="/admin/news/<%= post.id %>/edit" enctype="multipart/form-data" class="admin-form">
+            <div><label>Заголовок</label><input type="text" name="title" value="<%= post.title %>"></div>
+            <div><label>Дата</label><input type="date" name="date" value="<%= post.date %>"></div>
+            <div><label>Короткий опис (для списку)</label><input type="text" name="excerpt" value="<%= post.excerpt %>"></div>
+            <div><label>Повний текст</label><textarea name="content" rows="4"><%= post.content %></textarea></div>
+            <div style="display:flex; gap:10px; align-items:center;">
+              <img src="/images/<%= post.image %>" alt="" style="width:70px; height:50px; object-fit:cover; border-radius:3px;">
+              <input type="file" name="image" accept="image/*" style="font-size:13px;">
+            </div>
+            <button type="submit" style="justify-self:start;">Зберегти новину</button>
+          </form>
+        </div>
+      <% }) %>
+
+      <div class="admin-card admin-add-card">
+        <h3 style="margin-bottom:14px;">Нова новина</h3>
+        <form method="POST" action="/admin/news/add" enctype="multipart/form-data" class="admin-form">
+          <div><label>Заголовок</label><input type="text" name="title" placeholder="Напр. Запрошуємо на дегустацію" required></div>
+          <div><label>Дата</label><input type="date" name="date"></div>
+          <div><label>Короткий опис</label><input type="text" name="excerpt" placeholder="1–2 речення для картки в списку"></div>
+          <div><label>Повний текст</label><textarea name="content" rows="4" placeholder="Текст новини"></textarea></div>
+          <div><label>Фото (необов'язково)</label><input type="file" name="image" accept="image/*"></div>
+          <button type="submit">Опублікувати</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- ===================== КОНТАКТИ ===================== -->
+    <section class="admin-panel" data-panel="contacts">
+      <h2>Контакти</h2>
+      <p class="sub">Адреса, телефон і параметр для карти на сторінці «Контакти».</p>
+
+      <div class="admin-card">
+        <form method="POST" action="/admin/contacts" class="admin-form">
+          <div><label>Адреса</label><input type="text" name="address" value="<%= db.contacts.address %>"></div>
+          <div><label>Телефон</label><input type="text" name="phone" value="<%= db.contacts.phone %>"></div>
+          <div><label>Як доїхати (текст)</label><textarea name="directions" rows="3"><%= db.contacts.directions %></textarea></div>
+          <div><label>Запит для карти Google (адреса для пошуку)</label><input type="text" name="mapQuery" value="<%= db.contacts.mapQuery %>"></div>
+          <button type="submit">Зберегти контакти</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- ===================== ГОЛОВНА СТОРІНКА ===================== -->
+    <section class="admin-panel" data-panel="site">
+      <h2>Текст головної сторінки</h2>
+      <p class="sub">Заголовок hero-блоку, вступний текст і блок «Про заклад».</p>
+
+      <div class="admin-card">
+        <form method="POST" action="/admin/site" class="admin-form">
+          <div><label>Підпис над заголовком</label><input type="text" name="heroEyebrow" value="<%= db.site.heroEyebrow %>"></div>
+          <div><label>Головний заголовок</label><input type="text" name="heroTitle" value="<%= db.site.heroTitle %>"></div>
+          <div><label>Підзаголовок (lead)</label><textarea name="heroLead" rows="3"><%= db.site.heroLead %></textarea></div>
+          <div><label>Заголовок блоку «Про заклад»</label><input type="text" name="aboutTitle" value="<%= db.site.aboutTitle %>"></div>
+          <div><label>Текст «Про заклад» — абзац 1</label><textarea name="aboutText1" rows="3"><%= db.site.aboutText1 %></textarea></div>
+          <div><label>Текст «Про заклад» — абзац 2</label><textarea name="aboutText2" rows="3"><%= db.site.aboutText2 %></textarea></div>
+          <div style="display:flex; gap:14px;">
+            <div><label>Гостей</label><input type="text" name="factGuests" value="<%= db.site.factGuests %>"></div>
+            <div><label>Кухні</label><input type="text" name="factCuisines" value="<%= db.site.factCuisines %>"></div>
+            <div><label>Років</label><input type="text" name="factYears" value="<%= db.site.factYears %>"></div>
+          </div>
+          <button type="submit" style="justify-self:start;">Зберегти текст</button>
+        </form>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script src="/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Вхід в адмінку — Млин</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body class="admin-body">
+  <div class="login-shell">
+    <div class="login-box">
+      <a href="/" class="brand">
+        <svg class="mill" viewBox="0 0 100 100" fill="none"><g class="mill-spin"><path d="M50 50 L20 20 M50 50 L80 20 M50 50 L80 80 M50 50 L20 80" stroke-width="6"/></g></svg>
+        Млин
+      </a>
+      <% if (error) { %><div class="login-error"><%= error %></div><% } %>
+      <form method="POST" action="/admin/login">
+        <input type="password" name="password" placeholder="Пароль адмінки" autofocus required>
+        <button type="submit">Увійти</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
