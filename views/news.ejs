@@ -1,0 +1,30 @@
+<% pageTitle = 'Новини — Млин, Дрогобич' %>
+<%- include('partials/header') %>
+
+<section class="page-hero">
+  <div class="wrap">
+    <div class="eyebrow">Активність закладу</div>
+    <h1>Що нового у «Млині»</h1>
+    <p>Сезонний декор, нові формати подій та оголошення про бронювання дат.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap reveal">
+    <div class="cards" style="grid-template-columns:repeat(2,1fr);">
+      <% news.forEach(function(post){ %>
+        <a href="/news/<%= post.slug %>" class="card" style="display:block;">
+          <img src="/images/<%= post.image %>" alt="<%= post.title %>" style="border-radius:2px; margin-bottom:18px; height:200px; object-fit:cover; width:100%;">
+          <div class="idx"><%= new Date(post.date).toLocaleDateString('uk-UA', {day:'numeric', month:'long', year:'numeric'}) %></div>
+          <h3><%= post.title %></h3>
+          <p><%= post.excerpt %></p>
+        </a>
+      <% }) %>
+    </div>
+    <% if (!news.length) { %>
+      <p style="padding:40px 0; color:rgba(33,28,24,0.5);">Новин ще немає.</p>
+    <% } %>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

@@ -1,0 +1,28 @@
+<% pageTitle = (post ? post.title : 'Новину не знайдено') + ' — Млин' %>
+<%- include('partials/header') %>
+
+<% if (post) { %>
+  <section class="page-hero">
+    <div class="wrap">
+      <div class="eyebrow"><%= new Date(post.date).toLocaleDateString('uk-UA', {day:'numeric', month:'long', year:'numeric'}) %></div>
+      <h1><%= post.title %></h1>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap reveal" style="max-width:760px;">
+      <img src="/images/<%= post.image %>" alt="<%= post.title %>" style="border-radius:2px; margin-bottom:30px;">
+      <p style="font-size:18px; line-height:1.7; color:rgba(33,28,24,0.8);"><%= post.content %></p>
+      <p style="margin-top:40px;"><a href="/news" class="btn btn-ghost">← Усі новини</a></p>
+    </div>
+  </section>
+<% } else { %>
+  <section class="page-hero">
+    <div class="wrap">
+      <h1>Новину не знайдено</h1>
+      <p><a href="/news" style="color:var(--amber-soft);">Повернутись до новин</a></p>
+    </div>
+  </section>
+<% } %>
+
+<%- include('partials/footer') %>

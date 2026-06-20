@@ -1,0 +1,69 @@
+<% pageTitle = 'Зала — Млин, Дрогобич' %>
+<%- include('partials/header') %>
+
+<section class="page-hero">
+  <div class="wrap">
+    <div class="eyebrow">Простір для події</div>
+    <h1>Зала, яка тримає форму на <%= hall.stats[0] ? hall.stats[0].num : 150 %> гостей</h1>
+    <p>Дерев'яні балки, м'яке точкове світло і нейтральні стіни — ідеальне полотно для будь-якого декору.</p>
+  </div>
+</section>
+
+<div class="wrap">
+  <div class="stat-row reveal">
+    <% hall.stats.forEach(function(s){ %>
+      <div class="stat"><div class="num"><%= s.num %></div><div class="label"><%= s.label %></div></div>
+    <% }) %>
+  </div>
+</div>
+
+<% hall.sections.forEach(function(sec){ %>
+  <section class="<%= sec.reverse ? 'bg-paper' : '' %>">
+    <div class="wrap split <%= sec.reverse ? 'reverse' : '' %> reveal">
+      <div>
+        <div class="eyebrow"><%= sec.eyebrow %></div>
+        <h2 style="margin-top:14px; font-size:clamp(26px,3.4vw,36px);"><%= sec.title %></h2>
+        <p style="margin-top:16px; color:rgba(33,28,24,0.72);"><%= sec.text %></p>
+        <div class="tag-list">
+          <% sec.tags.forEach(function(tag){ %><span class="tag"><%= tag %></span><% }) %>
+        </div>
+      </div>
+      <div class="split-img"><img src="/images/<%= sec.image %>" alt="<%= sec.title %>"></div>
+    </div>
+  </section>
+<% }) %>
+
+<div class="wrap">
+  <div class="beam-divider">
+    <span class="line"></span>
+    <svg viewBox="0 0 100 100" fill="none"><g class="mill-spin"><path class="blade" d="M50 50 L20 20 M50 50 L80 20 M50 50 L80 80 M50 50 L20 80"/></g></svg>
+    <span class="line"></span>
+  </div>
+</div>
+
+<section class="bg-paper section-tight">
+  <div class="wrap reveal">
+    <div class="section-head">
+      <div class="eyebrow">Назовні</div>
+      <h2>Фасад, вітряк і зелений двір</h2>
+      <p>Перше, що бачать гості — впізнаваний вітряк на даху та доглянутий двір зі штучним газоном.</p>
+    </div>
+    <div class="full-gallery">
+      <img src="/images/facade-day.jpg" alt="Фасад ресторану «Млин» вдень">
+      <img src="/images/night-windmill.jpg" alt="Підсвічений вітряк на фасаді вночі">
+      <img src="/images/facade-trees.jpg" alt="Фасад закладу серед дерев">
+    </div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="wrap">
+    <h2>Прийдіть подивитись залу особисто</h2>
+    <div class="actions">
+      <a href="/contacts" class="btn btn-primary">Домовитись про показ</a>
+      <a href="/menu" class="btn btn-ghost">Переглянути меню</a>
+    </div>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

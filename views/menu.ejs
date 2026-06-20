@@ -1,0 +1,48 @@
+<% pageTitle = 'Меню — Млин, Дрогобич' %>
+<%- include('partials/header') %>
+
+<section class="page-hero">
+  <div class="wrap">
+    <div class="eyebrow">Кухня закладу</div>
+    <h1>Смак, після якого хочеться повернутись</h1>
+    <p>Українська, європейська, італійська та авторська кухні — від домашніх закусок до святкового гриля для весільного бенкету.</p>
+  </div>
+</section>
+
+<nav class="menu-nav wrap" aria-label="Розділи меню">
+  <% categories.forEach(function(cat){ %>
+    <a href="#<%= cat.id %>"><%= cat.name %></a>
+  <% }) %>
+</nav>
+
+<div class="wrap">
+  <% categories.forEach(function(cat, i){ %>
+    <section class="menu-category reveal" id="<%= cat.id %>">
+      <div class="menu-category-head">
+        <h2><%= cat.name %></h2>
+        <span class="count"><%= String(i+1).padStart(2,'0') %> / <%= String(categories.length).padStart(2,'0') %></span>
+      </div>
+      <div class="menu-list">
+        <% cat.items.forEach(function(item){ %>
+          <div class="menu-item">
+            <div class="info"><h3><%= item.name %></h3><p><%= item.desc %></p></div>
+            <div class="price"><%= item.price %></div>
+          </div>
+        <% }) %>
+        <% if (!cat.items.length) { %>
+          <p style="color:rgba(33,28,24,0.5); font-size:14.5px;">У цьому розділі ще немає страв.</p>
+        <% } %>
+      </div>
+    </section>
+  <% }) %>
+
+  <% if (!categories.length) { %>
+    <p style="padding:60px 0; color:rgba(33,28,24,0.5);">Меню поки порожнє — додайте розділи в адмін-панелі.</p>
+  <% } %>
+
+  <div class="menu-note">
+    Меню оновлюється закладом і може містити сезонні зміни. Для бенкетів та весіль уточнюйте повний прайс окремо.
+  </div>
+</div>
+
+<%- include('partials/footer') %>

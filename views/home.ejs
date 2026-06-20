@@ -1,0 +1,94 @@
+<% pageTitle = 'Млин — банкетний зал та ресторан у Дрогобичі' %>
+<%- include('partials/header') %>
+
+<section class="hero">
+  <img src="/images/night-windmill.jpg" alt="Заклад «Млин» увечері, підсвічений вітряк на фасаді">
+  <div class="hero-content wrap">
+    <div class="hero-eyebrow"><%= site.heroEyebrow %></div>
+    <h1><%= site.heroTitle %></h1>
+    <p class="lead"><%= site.heroLead %></p>
+    <div class="hero-actions">
+      <a href="/contacts" class="btn btn-primary">Забронювати дату</a>
+      <a href="/hall" class="btn btn-ghost">Подивитись залу</a>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap about-grid reveal">
+    <div class="about-text">
+      <div class="eyebrow">Про заклад</div>
+      <h2 style="margin-top:14px; font-size:clamp(28px,3.6vw,40px);"><%= site.aboutTitle %></h2>
+      <p><%= site.aboutText1 %></p>
+      <p><%= site.aboutText2 %></p>
+      <div class="facts">
+        <div class="fact"><div class="num"><%= site.factGuests %></div><div class="label">гостей у залі</div></div>
+        <div class="fact"><div class="num"><%= site.factCuisines %></div><div class="label">кухні в меню</div></div>
+        <div class="fact"><div class="num"><%= site.factYears %></div><div class="label">років на вул. Стрийській</div></div>
+      </div>
+    </div>
+    <img src="/images/facade-day.jpg" alt="Фасад ресторану «Млин» вдень із вітряком на даху">
+  </div>
+</section>
+
+<div class="wrap">
+  <div class="beam-divider">
+    <span class="line"></span>
+    <svg viewBox="0 0 100 100" fill="none"><g class="mill-spin"><path class="blade" d="M50 50 L20 20 M50 50 L80 20 M50 50 L80 80 M50 50 L20 80"/></g></svg>
+    <span class="line"></span>
+  </div>
+</div>
+
+<section class="bg-paper section-tight">
+  <div class="wrap reveal">
+    <div class="section-head">
+      <div class="eyebrow">Для будь-якої події</div>
+      <h2>Один заклад, три формати свята</h2>
+      <p>Велика зала для весілля, тиха альтанка для дружньої зустрічі, конференц-зал для робочих подій — простір підлаштовується під привід.</p>
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="idx">Весілля та банкети</div>
+        <h3>Зала до <%= hall.stats[0] ? hall.stats[0].num : 150 %> гостей</h3>
+        <p>Декор, святковий стіл, простір для виносного церемоніалу та танців — усе в одному залі.</p>
+      </div>
+      <div class="card">
+        <div class="idx">Альтанки</div>
+        <h3>Літній майданчик</h3>
+        <p>Оренда альтанок для меншої компанії, шашлик на мангалі та вечір на свіжому повітрі.</p>
+      </div>
+      <div class="card">
+        <div class="idx">Бізнес-події</div>
+        <h3>Конференц-зал</h3>
+        <p>Окреме приміщення для нарад, презентацій чи корпоративного навчання.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap reveal">
+    <div class="section-head">
+      <div class="eyebrow">Атмосфера</div>
+      <h2>Зала, яка підлаштовується під подію</h2>
+      <p>Від весільної арки до новорічної фотозони — інтер'єр живе разом зі святом.</p>
+    </div>
+    <div class="gallery-strip">
+      <figure class="tall"><img src="/images/hall-wedding.jpg" alt="Весільна зала з рядами стільців і квітковою аркою"><figcaption>Весільна церемонія в залі</figcaption></figure>
+      <figure><img src="/images/banquet-table.jpg" alt="Святковий стіл із закусками та офіціантом"><figcaption>Святковий стіл</figcaption></figure>
+      <figure><img src="/images/hall-newyear.jpg" alt="Новорічна фотозона з декоративним годинником"><figcaption>Новорічна фотозона</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="wrap">
+    <h2>Готові обрати дату для свого свята?</h2>
+    <div class="actions">
+      <a href="/contacts" class="btn btn-primary">Написати нам</a>
+      <a href="/menu" class="btn btn-ghost">Переглянути меню</a>
+    </div>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

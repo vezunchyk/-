@@ -1,0 +1,51 @@
+<% pageTitle = 'Контакти — Млин, Дрогобич' %>
+<%- include('partials/header') %>
+
+<section class="page-hero">
+  <div class="wrap">
+    <div class="eyebrow">Як нас знайти</div>
+    <h1>Домовимось про вашу дату</h1>
+    <p>Зателефонуйте, напишіть або заїжджайте подивитись залу особисто.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap contact-grid reveal">
+    <div>
+      <div class="contact-card">
+        <h3>Адреса</h3>
+        <p><%= contacts.address %></p>
+      </div>
+      <div class="contact-card">
+        <h3>Телефон</h3>
+        <p><a href="tel:<%= contacts.phone.replace(/\s+/g,'') %>"><%= contacts.phone %></a></p>
+      </div>
+      <div class="contact-card">
+        <h3>Як доїхати</h3>
+        <p><%= contacts.directions %></p>
+      </div>
+
+      <% if (submitted) { %>
+        <div class="flash" style="margin-top:18px;">Дякуємо! Ваш запит надіслано, ми зв'яжемось найближчим часом.</div>
+      <% } %>
+
+      <form class="contact-form" method="POST" action="/contacts" aria-label="Форма для запиту бронювання">
+        <input type="text" name="name" placeholder="Ваше ім'я" required>
+        <input type="tel" name="phone" placeholder="Номер телефону" required>
+        <input type="text" name="event" placeholder="Дата та тип події (весілля, корпоратив...)">
+        <textarea name="message" rows="4" placeholder="Кількість гостей, додаткові питання"></textarea>
+        <button type="submit" class="btn btn-dark">Надіслати запит</button>
+      </form>
+    </div>
+
+    <iframe
+      class="map-frame"
+      src="https://www.google.com/maps?q=<%= encodeURIComponent(contacts.mapQuery) %>&output=embed"
+      title="Карта розташування закладу «Млин»"
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade">
+    </iframe>
+  </div>
+</section>
+
+<%- include('partials/footer') %>
