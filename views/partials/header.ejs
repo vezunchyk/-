@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title><%= typeof pageTitle !== 'undefined' ? pageTitle : 'Млин — банкетний зал та ресторан у Дрогобичі' %></title>
+<meta name="description" content="<%= typeof pageDescription !== 'undefined' ? pageDescription : 'Млин — банкетний зал та ресторан у Дрогобичі, вул. Стрийська 266.' %>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap">
+    <a href="/" class="brand">
+      <svg class="mill" viewBox="0 0 100 100" fill="none"><g class="mill-spin"><path d="M50 50 L20 20 M50 50 L80 20 M50 50 L80 80 M50 50 L20 80" stroke-width="6"/><circle cx="50" cy="50" r="5" fill="#211C18" stroke="none"/></g></svg>
+      Млин
+    </a>
+    <nav class="mainnav">
+      <a href="/" <%= currentPath === '/' ? 'aria-current="page"' : '' %>>Головна</a>
+      <a href="/menu" <%= currentPath === '/menu' ? 'aria-current="page"' : '' %>>Меню</a>
+      <a href="/hall" <%= currentPath === '/hall' ? 'aria-current="page"' : '' %>>Зала</a>
+      <a href="/news" <%= currentPath.startsWith('/news') ? 'aria-current="page"' : '' %>>Новини</a>
+      <a href="/contacts" <%= currentPath === '/contacts' ? 'aria-current="page"' : '' %>>Контакти</a>
+    </nav>
+    <a href="/contacts" class="nav-cta">Забронювати дату</a>
+    <button class="burger" aria-label="Меню" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</header>
