@@ -17,17 +17,23 @@ jobs:
           java-version: 21
       - name: Capacitor project
         run: |
+          ls -la
           mkdir www
-          cp index.html www/
+          cp "$(ls index*.html | head -n1)" www/index.html
           npm init -y
           npm i @capacitor/core @capacitor/cli @capacitor/android
           npx cap init "Облік диванів" com.mykola.dyvany --web-dir=www
           npx cap add android
           npx cap sync android
-      - name: Stable debug key
+      - name: Debug key
         run: |
           mkdir -p ~/.android
-          cp debug.keystore ~/.android/debug.keystore
+          ks=$(ls debug*.keystore 2>/dev/null | head -n1)
+          if [ -n "$ks" ]; then
+            cp "$ks" ~/.android/debug.keystore
+          else
+            keytool -genkeypair -keystore ~/.android/debug.keystore -storepass android -keypass android -alias androiddebugkey -keyalg RSA -keysize 2048 -validity 36500 -dname "CN=Android Debug,O=Android,C=US"
+          fi
       - name: Build
         run: |
           cd android
