@@ -24,6 +24,15 @@ jobs:
           npx cap init "Облік диванів" com.mykola.dyvany --web-dir=www
           npx cap add android
           npx cap sync android
+      - name: App icon
+        continue-on-error: true
+        run: |
+          mkdir -p assets
+          cp "$(ls icon-only*.png | head -n1)" assets/icon-only.png
+          cp "$(ls icon-foreground*.png | head -n1)" assets/icon-foreground.png
+          cp "$(ls icon-background*.png | head -n1)" assets/icon-background.png
+          npm i -D @capacitor/assets
+          npx capacitor-assets generate --android
       - name: Stable signing
         run: |
           ks=$(ls debug*.keystore 2>/dev/null | head -n1)
