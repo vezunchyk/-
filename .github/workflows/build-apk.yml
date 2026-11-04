@@ -20,7 +20,7 @@ jobs:
           mkdir www
           cp "$(ls index*.html | head -n1)" www/index.html
           npm init -y
-        npm i @capacitor/core @capacitor/cli @capacitor/android @capacitor/filesystem @capacitor/share
+          npm i @capacitor/core @capacitor/cli @capacitor/android @capacitor/filesystem @capacitor/share
           npx cap init "Облік диванів" com.mykola.dyvany --web-dir=www
           npx cap add android
           npx cap sync android
