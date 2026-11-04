@@ -47,9 +47,12 @@ jobs:
           cd android
           chmod +x gradlew
           ./gradlew assembleDebug
-      - name: Fingerprint
-        run: keytool -printcert -jarfile android/app/build/outputs/apk/debug/app-debug.apk | grep SHA256
       - uses: actions/upload-artifact@v4
         with:
           name: dyvany-apk
           path: android/app/build/outputs/apk/debug/app-debug.apk
+      - name: Fingerprint
+        continue-on-error: true
+        run: |
+          AS=$(ls -d $ANDROID_HOME/build-tools/*/ | tail -n1)apksigner
+          $AS verify --print-certs android/app/build/outputs/apk/debug/app-debug.apk | grep SHA-256
